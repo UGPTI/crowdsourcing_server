@@ -27,7 +27,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const routes = require('./routes/routes');
-
+require('dotenv').config()
 
 /**
  * @description Constant Variable is declared to use to define PORT number for the connection.

@@ -10,6 +10,26 @@
  *  @since          : 04-24-2023
  *
  *****************************************************************************************/
- /**
- * @description Dependencies require to be installed before the execution of this file.
- */
+/**
+* @description Dependencies require to be installed before the execution of this file.
+*/
+
+
+const dotenv = require('dotenv');
+dotenv.config();
+const sql = require('mssql');
+const createConnection = require('./connection');
+
+const getDreData = async () => {
+    const connString = createConnection();
+    const query = `            
+    SELECT * from Dre_Details`;
+    await sql.connect(connString);
+    const result = await sql.query(query);
+    return result.recordsets[0];
+}
+
+module.exports.dreListModel = async () => {
+    return await getDreData();
+}
+
