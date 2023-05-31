@@ -1,11 +1,10 @@
 const sql = require('mssql');
-const dotenv = require('dotenv');
-dotenv.config();
+const config = require('../config.json');
 
 
 
 const createConnection = async () => {
-    const connection = `Server=${process.env.DB_HOST};Database=${process.env.DB_DATABASE};User Id=${process.env.DB_USER};Password=${process.env.DB_PASSWORD};trustServerCertificate=${process.env.DB_TRUSTCERTIFICATE}`;
+    const connection = `Server=${config.server};Database=${config.database};User Id=${config.user};Password=${config.password};trustServerCertificate=${config.trustCertificate}`;
 
     try {
         return await sql.connect(connection);

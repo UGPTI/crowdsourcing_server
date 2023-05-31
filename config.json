@@ -1,0 +1,15 @@
+{
+  "port_number": 9001,
+  "sqlConn": {
+    "user": "DRE",
+    "password": "B8#TJbQ2%hR1$c1",
+    "server": "dotsc-data.ugpti.ndsu.nodak.edu",
+    "database": "DrugRecognitionExpert",
+    "connectionTimeout": 999999999,
+    "requestTimeout": 999999999,
+    "trustCertificate": true
+  },
+  
+
+"absoluteProgramDirectory": "D:\\inetpub\\git\\DRE\\DRE_Server\\server.js"
+}
