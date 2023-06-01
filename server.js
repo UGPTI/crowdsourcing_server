@@ -28,12 +28,13 @@ const bodyParser = require('body-parser');
 
 const routes = require('./routes/routes');
 require('dotenv').config()
+const config = require('./config.json');
 
 /**
  * @description Constant Variable is declared to use to define PORT number for the connection.
  * @var {integer} PORT
  */
-const PORT = process.env.PORT || 3030 ;
+const PORT = config.port_number;
 
 
 const app = express();

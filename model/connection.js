@@ -4,7 +4,7 @@ const config = require('../config.json');
 
 
 const createConnection = async () => {
-    const connection = `Server=${config.server};Database=${config.database};User Id=${config.user};Password=${config.password};trustServerCertificate=${config.trustCertificate}`;
+    const connection = `Server=${config.sqlConn.server};Database=${config.sqlConn.database};User Id=${config.sqlConn.user};Password=${config.sqlConn.password};trustServerCertificate=${config.sqlConn.trustCertificate}`;
 
     try {
         return await sql.connect(connection);
