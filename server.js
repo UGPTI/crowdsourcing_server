@@ -25,9 +25,9 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
+const https = require('https');
+const fs = require('fs');
 const routes = require('./routes/routes');
-require('dotenv').config()
 const config = require('./config.json');
 
 /**
@@ -38,6 +38,28 @@ const PORT = config.port_number;
 
 
 const app = express();
+
+const serverOptions = {}
+
+let server = null;
+
+if (config.secure == 1) {
+    console.log("running in https mode.");
+    serverOptions = {
+        key: fs.readFileSync('cert/dotsc.ugpti.ndsu.nodak.edu-2023-key.pem'),
+        cert: fs.readFileSync('cert/dotsc.ugpti.ndsu.nodak.edu-2023-cert.pem'),
+        passphrase: 'DOTSCITugpti2023$',
+        pfx: fs.readFileSync('cert/dotsc.ugpti.ndsu.nodak.edu-2023.pfx'),
+        requestCert: false,
+        rejectUnauthorized: false
+    }
+    //generated from this https://matoski.com/article/node-express-generate-ssl/
+    server = https.createServer(serverOptions, app);
+}
+else if (config.server != 1) {
+    console.log("running in *developer only* http mode.");
+    server = require('http').Server(app);
+}
 
 /**
  * @description middleware added to support cross origin platform sharing.
@@ -79,6 +101,10 @@ app.use(function(err, req, res, next) {
           })
 });
 
-app.listen(PORT, () => {
-  console.log('Listening on Port '+PORT);
+// app.listen(PORT, () => {
+//   console.log('Listening on Port '+PORT);
+// });
+
+server.listen(config.port_number, () => {
+  console.log(`Map started on port ${config.port_number.toString()}`);
 });

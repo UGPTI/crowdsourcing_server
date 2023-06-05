@@ -9,7 +9,6 @@
     "requestTimeout": 999999999,
     "trustCertificate": true
   },
-  
-
-"absoluteProgramDirectory": "D:\\inetpub\\git\\DRE\\DRE_Server\\server.js"
+  "absoluteProgramDirectory": "D:\\inetpub\\git\\DRE\\DRE_Server\\server.js",
+  "secure": 2
 }
