@@ -106,5 +106,5 @@ app.use(function(err, req, res, next) {
 // });
 
 server.listen(config.port_number, () => {
-  console.log(`Map started on port ${config.port_number.toString()}`);
+  console.log(`Server started on port ${config.port_number.toString()}`);
 });

@@ -10,5 +10,5 @@
     "trustCertificate": true
   },
   "absoluteProgramDirectory": "D:\\inetpub\\git\\DRE\\DRE_Server\\server.js",
-  "secure": 2
+  "secure": 1
 }
