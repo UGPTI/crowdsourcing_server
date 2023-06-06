@@ -39,7 +39,7 @@ const PORT = config.port_number;
 
 const app = express();
 
-const serverOptions = {}
+let serverOptions = {}
 
 let server = null;
 
