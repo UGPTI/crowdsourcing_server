@@ -28,3 +28,15 @@ module.exports.getDreList = async (req, res) => {
     }
 }
 
+module.exports.readAndUpdateDreList = async (req, res) => {
+   
+    const results = await Model.readAndUpdateDreListModel();
+    if (results && results.length > 0) {
+        let response = new Response(false, "list updated successfully", results);
+        res.status(200).send(response);
+    } else {
+        let response = new Response(true, "list NOT FOUND", []);
+        res.status(400).send(response);
+    }
+}
+
