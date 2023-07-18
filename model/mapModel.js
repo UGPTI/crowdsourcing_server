@@ -13,6 +13,9 @@
 /**
 * @description Dependencies require to be installed before the execution of this file.
 */
+
+
+const dotenv = require('dotenv');
 dotenv.config();
 const sql = require('mssql');
 const xlsx = require('xlsx');
