@@ -16,16 +16,16 @@
 
 
 const dotenv = require('dotenv');
-dotenv.config();
 const sql = require('mssql');
 const xlsx = require('xlsx');
 const createConnection = require('./connection');
 
 const filePath = "Z:/Vimlesh/DRE Project/DRE_Statewide_List.xlsx";
 const sheetName = "Sheet1";
-const tableName = "DRE_DETAILS1";
+const tableName = "DRE_DETAILS";
 
 const columnMapping = {
+    "dreOfficer": "dreOfficer",
     "Last Name": "lastName",
     "First Name": "firstName",
     lat: "lat",
@@ -34,7 +34,7 @@ const columnMapping = {
     "1st Preferred Contact": "phoneNumber",
     "2nd Preferred Contact": "alternateNumber",
     "Responding Areas": "respondingArea",
-    "Estimated City": "mapeArea",
+    "Estimated City": "mapArea",
     "Agency": "agency",
     "Agency Type": "agencyType"
     // Add more column mappings as needed
@@ -50,13 +50,15 @@ const createTableIfNotExists = async () => {
         const { recordset } = await request.query(tableExistsQuery);
 
         if (recordset.length === 0) {
-            const createTableQuery = `CREATE TABLE ${tableName} (ID INT IDENTITY(1,1) PRIMARY KEY, ${Object.entries(
+            const createTableQuery = `CREATE TABLE ${tableName} (Id INT IDENTITY(1,1) PRIMARY KEY, ${Object.entries(
                 columnMapping
             )
                 .map(([header, column]) =>
                     column === "dreOfficer"
                         ? `[${column}] AS ([${columnMapping["First Name"]}]+ ' ' +[${columnMapping["Last Name"]}])`
-                        : `[${column}] NVARCHAR(MAX)`
+                        : column === "lat" || column === "lon"
+                            ? `[${column}] DECIMAL(9, 6)`
+                            : `[${column}] NVARCHAR(MAX)`
                 )
                 .join(", ")})`;
             await request.query(createTableQuery);
@@ -108,7 +110,14 @@ const insertDataIntoDatabase = async (data) => {
             const query = `INSERT INTO ${tableName} (${columns}) VALUES (${placeholders})`;
 
             values.forEach((value, index) => {
-                request.input(`param${i}_${index + 1}`, value);
+                const columnName = Object.keys(item)[index];
+                if (columnName === 'lat' || columnName === 'lon') {
+                    // Validate and convert lat/lon values to decimal
+                    const decimalValue = parseFloat(value);
+                    request.input(`param${i}_${index + 1}`, sql.Decimal(9, 6), decimalValue);
+                } else {
+                    request.input(`param${i}_${index + 1}`, value);
+                }
             });
 
             await request.query(query);
