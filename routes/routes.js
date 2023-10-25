@@ -4,7 +4,6 @@ const router = express.Router();
 const mapController = require("../controller/mapController");
 
 
-router.get('/getDreList' , mapController.getDreList);
-router.get('/readAndUpdateDreList' , mapController.readAndUpdateDreList);
+router.post('/saveData' , mapController.saveData);
 
 module.exports = router;
