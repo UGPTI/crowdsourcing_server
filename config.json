@@ -4,7 +4,7 @@
     "user": "DRE",
     "password": "B8#TJbQ2%hR1$c1",
     "server": "dotsc-data.ugpti.ndsu.nodak.edu",
-    "database": "DrugRecognitionExpert",
+    "database": "DrugRecognitionExpert_Test",
     "connectionTimeout": 999999999,
     "requestTimeout": 999999999,
     "trustCertificate": true

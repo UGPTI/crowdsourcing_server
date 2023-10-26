@@ -31,7 +31,7 @@ module.exports.saveData = async (req, res) => {
         description,
         locationDetails
     });
-    if (results && results.length > 0) {
+    if (results > 0) {
         let response = new Response(false, "list get successfully", results);
         res.status(200).send(response);
     } else {

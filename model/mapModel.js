@@ -20,8 +20,34 @@ const createConnection = require('./connection');
 
 const tableName = "CrowdSourcing";
 
+// Function to create the table if it does not exist
+const createTableIfNotExists = async () => {
+    try {
+        const connString = createConnection();
+        await sql.connect(connString);
+
+        const createTableQuery = `
+            CREATE TABLE ${tableName} (
+                locationDetails NVARCHAR(255),
+                otherOption NVARCHAR(255),
+                selectedOption NVARCHAR(255),
+                description NVARCHAR(255)
+            )
+        `;
+
+        await new sql.Request().query(createTableQuery);
+
+        console.log(`Table ${tableName} created successfully.`);
+    } catch (error) {
+        console.error('Error creating table:', error);
+        throw error;
+    } finally {
+        sql.close();
+    }
+}
+
 // Function to save user data to the database
-const saveDataModel = async ({locationDetails, otherOption, selectedOption, description}) => {
+const saveDataModel = async ({ locationDetails, otherOption, selectedOption, description }) => {
     try {
         const connString = createConnection();
         await sql.connect(connString);
@@ -35,12 +61,12 @@ const saveDataModel = async ({locationDetails, otherOption, selectedOption, desc
             await createTableIfNotExists();
         }
 
-        const request = new sql.Request();
+        const request = await new sql.Request();
 
         const query = `
-        INSERT INTO ${tableName} (locationDetails, otherOption, selectedOption, description)
-        VALUES (@locationDetails, @otherOption, @selectedOption, @description)
-      `;
+            INSERT INTO ${tableName} (locationDetails, otherOption, selectedOption, description)
+            VALUES (@locationDetails, @otherOption, @selectedOption, @description)
+        `;
 
         request.input('locationDetails', locationDetails);
         request.input('selectedOption', selectedOption);
@@ -49,7 +75,7 @@ const saveDataModel = async ({locationDetails, otherOption, selectedOption, desc
 
         const result = await request.query(query);
         console.log('Data saved successfully');
-        return result;
+        return result.rowsAffected[0];
     } catch (error) {
         console.error('Error saving data:', error);
         throw error;
