@@ -20,6 +20,8 @@ const Model = require('../model/mapModel');
 module.exports.saveData = async (req, res) => {
     const {
         selectedOption,
+        latitude,
+        longitude,
         otherOption,
         description,
         locationDetails
@@ -27,6 +29,8 @@ module.exports.saveData = async (req, res) => {
     
     const results = await Model.saveDataModel({
         selectedOption,
+        latitude,
+        longitude,
         otherOption,
         description,
         locationDetails

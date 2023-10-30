@@ -1,14 +1,14 @@
 {
-  "port_number": 9001,
+  "port_number": 9191,
   "sqlConn": {
-    "user": "DRE",
-    "password": "B8#TJbQ2%hR1$c1",
+    "user": "Crowdsourcing",
+    "password": "brRfrj2wQTnmePsUGh",
     "server": "dotsc-data.ugpti.ndsu.nodak.edu",
-    "database": "DrugRecognitionExpert_Test",
+    "database": "Crowdsourcing",
     "connectionTimeout": 999999999,
     "requestTimeout": 999999999,
     "trustCertificate": true
   },
   "absoluteProgramDirectory": "D:\\inetpub\\git\\DRE\\DRE_Server\\server.js",
-  "secure": 2
+  "secure": 1
 }

@@ -29,6 +29,9 @@ const createTableIfNotExists = async () => {
         const createTableQuery = `
             CREATE TABLE ${tableName} (
                 locationDetails NVARCHAR(255),
+                latitude NVARCHAR(255),
+                longitude NVARCHAR(255),
+                date DATETIME,
                 otherOption NVARCHAR(255),
                 selectedOption NVARCHAR(255),
                 description NVARCHAR(255)
@@ -47,7 +50,7 @@ const createTableIfNotExists = async () => {
 }
 
 // Function to save user data to the database
-const saveDataModel = async ({ locationDetails, otherOption, selectedOption, description }) => {
+const saveDataModel = async ({ locationDetails, latitude, longitude, otherOption, selectedOption, description }) => {
     try {
         const connString = createConnection();
         await sql.connect(connString);
@@ -63,15 +66,21 @@ const saveDataModel = async ({ locationDetails, otherOption, selectedOption, des
 
         const request = await new sql.Request();
 
+        // Get the current date and time in ISO format
+        const currentDateTime = new Date().toISOString();
+
         const query = `
-            INSERT INTO ${tableName} (locationDetails, otherOption, selectedOption, description)
-            VALUES (@locationDetails, @otherOption, @selectedOption, @description)
+            INSERT INTO ${tableName} (locationDetails,latitude,longitude,date, otherOption, selectedOption, description)
+            VALUES (@locationDetails,@latitude,@longitude,@date, @otherOption, @selectedOption, @description)
         `;
 
         request.input('locationDetails', locationDetails);
         request.input('selectedOption', selectedOption);
         request.input('description', description);
         request.input('otherOption', otherOption);
+        request.input('latitude', latitude);
+        request.input('longitude', longitude);
+        request.input('date', currentDateTime);
 
         const result = await request.query(query);
         console.log('Data saved successfully');
